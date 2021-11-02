@@ -26,7 +26,7 @@ struct ContentView: View {
                     InputTextFieldView(inputText: $inputTaxRate)
                 }
                 Button("計算") {
-                    includedTax = calcIncludedTaxAmount(inputExcludingTax, inputTaxRate)
+                    includedTax = calcIncludedTaxAmount(excludingTax: inputExcludingTax, taxRate: inputTaxRate) ?? 0
                     UIApplication.shared.closeKeyboard()
                 }
                 HStack {
@@ -39,9 +39,9 @@ struct ContentView: View {
         .padding()
         .frame(width: 300)
     }
-    private func calcIncludedTaxAmount(_ exTax: String, _ taxRate: String) -> Int {
-        guard let exTax = Int(exTax) else { return 0 }
-        guard let taxRate = Int(taxRate) else { return 0 }
+    private func calcIncludedTaxAmount(excludingTax: String, taxRate: String) -> Int? {
+        guard let exTax = Int(excludingTax) else { return nil }
+        guard let taxRate = Int(taxRate) else { return nil }
         return Int(exTax * (100 + taxRate) / 100)
     }
 
